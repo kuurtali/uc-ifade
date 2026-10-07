@@ -2,6 +2,13 @@
 const manifest = window.CARD_MANIFEST;
 const $ = id => document.getElementById(id);
 let active = 0;
+let theme = manifest.defaultTheme || 'black';
+try { const saved=localStorage.getItem('uc-ifade-theme'); if(manifest.themes?.[saved]) theme=saved; } catch {}
+for (const [value,label] of Object.entries(manifest.themes || {black:'Siyah'})) {
+  const option=document.createElement('option'); option.value=value; option.textContent=label;
+  $('theme-select').append(option);
+}
+function cardImage(card) { return card.images?.[theme] || card.image; }
 let remembered = 0;
 try { remembered = Number(localStorage.getItem('uc-ifade-preview') || 0); } catch {}
 if (Number.isInteger(remembered) && remembered >= 0 && remembered < manifest.count) active = remembered;
@@ -27,10 +34,11 @@ function render() {
     $('status').textContent = 'Henüz tamamlanmış üçlü kart bulunmuyor.';
     return;
   }
-  $('wallpaper').src = card.image;
+  $('theme-select').value = theme;
+  $('wallpaper').src = cardImage(card);
   $('wallpaper').alt = card.entries.map(e => `${e.expression}: ${e.meaning}. ${e.example} ${e.translation}`).join(' / ');
-  $('download').href = card.image;
-  $('download').download = `uc-ifade-${String(card.id).padStart(4,'0')}.jpg`;
+  $('download').href = cardImage(card);
+  $('download').download = `uc-ifade-${theme}-${String(card.id).padStart(4,'0')}.jpg`;
   $('card-select').value = active;
   $('previous').disabled = active === 0; $('next').disabled = active === manifest.count - 1;
   $('entries').replaceChildren();
@@ -47,8 +55,13 @@ function render() {
 $('previous').addEventListener('click', () => {if(active > 0){active--;render();}});
 $('next').addEventListener('click', () => {if(active < manifest.count-1){active++;render();}});
 $('card-select').addEventListener('change', e => {active = Number(e.target.value);render();});
+$('theme-select').addEventListener('change',e=>{
+  theme=e.target.value;
+  try {localStorage.setItem('uc-ifade-theme',theme);} catch {}
+  render();
+});
 $('copy').addEventListener('click', async () => {
-  const url = new URL(manifest.cards[active].image, location.href).href;
+  const url = new URL(cardImage(manifest.cards[active]), location.href).href;
   if (location.protocol === 'file:') { $('status').textContent = 'Paylaşılabilir bağlantı GitHub Pages yayını açılınca hazır olacak.'; return; }
   try {await navigator.clipboard.writeText(url);$('status').textContent = 'Görsel bağlantısı kopyalandı.';}
   catch { $('status').textContent = url; }

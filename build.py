@@ -10,7 +10,12 @@ ROOT = Path(__file__).resolve().parent
 OUT = ROOT
 OUT.mkdir(exist_ok=True)
 W, H = 1290, 2796
-RENDER_VERSION = '3'
+RENDER_VERSION = '4'
+THEMES = {
+    'black': {'label':'Siyah', 'background':'#000000','accent':'#c9d1dc','line':'#30343b','muted':'#aeb4bf','meaning':'#d1d5dd'},
+    'navy': {'label':'Lacivert', 'background':'#08152e','accent':'#91bcff','line':'#283b5c','muted':'#b0bdd2','meaning':'#cbd9ef'},
+    'purple': {'label':'Koyu mor', 'background':'#21132e','accent':'#d4aff5','line':'#51385f','muted':'#c3b1ce','meaning':'#e0cde9'},
+}
 
 def font(size, bold=False):
     custom = os.environ.get('CARD_FONT_BOLD' if bold else 'CARD_FONT')
@@ -84,24 +89,26 @@ def main():
     if args.validate_only: return
     cards=[]
     for number,group in enumerate(groups,1):
-        img = Image.new('RGB', (W, H), '#0d181c')
+      images={}
+      for theme_name,theme in THEMES.items():
+        img = Image.new('RGB', (W, H), theme['background'])
         d = ImageDraw.Draw(img)
         # Clock and widgets occupy the empty upper area; notifications the lower area.
-        d.line((108, 677, 1182, 677), fill='#34504f', width=2)
-        d.text((108, 698), 'ÜÇ İFADE', font=font(28, True), fill='#8ed4bf')
-        d.text((970, 698), f'KART {number:04d}', font=font(28), fill='#8ba29f')
+        d.line((108, 677, 1182, 677), fill=theme['line'], width=2)
+        d.text((108, 698), 'ÜÇ İFADE', font=font(28, True), fill=theme['accent'])
+        d.text((970, 698), f'KART {number:04d}', font=font(28), fill=theme['muted'])
         for slot, entry in enumerate(group):
             top = 770 + slot * 440
             x, width = 108, 1074
             label=f'{entry["level"]}  ·  {entry["kind"].upper()}'
             if entry['repeat']: label+='  ·  TEKRAR'
-            d.text((x, top), label, font=font(26), fill='#8ed4bf')
+            d.text((x, top), label, font=font(26), fill=theme['accent'])
             y = top + 45
             for text, size, bold, color, gap in [
-                (entry['expression'], 65, True, '#f3f0e9', 14),
-                (entry['meaning'], 39, False, '#b9cec8', 25),
-                (entry['example'], 43, False, '#f3f0e9', 12),
-                (entry['translation'], 36, False, '#a6b8b4', 0),
+                (entry['expression'], 65, True, '#fafafa', 14),
+                (entry['meaning'], 39, False, theme['meaning'], 25),
+                (entry['example'], 43, False, '#fafafa', 12),
+                (entry['translation'], 36, False, theme['muted'], 0),
             ]:
                 f = font(size, bold)
                 for line in wrap(d, text, f, width):
@@ -110,19 +117,28 @@ def main():
                 y += gap
             if y > top + 408: raise ValueError(f'Overflow on card {number}: {entry["expression"]} ({y-top}px)')
             if slot < 2:
-                d.line((108, top+420, 1182, top+420), fill='#29423f', width=2)
-        signature = hashlib.sha256((RENDER_VERSION+json.dumps(group,ensure_ascii=False,sort_keys=True)).encode()).hexdigest()[:12]
-        filename = f'card-{number:06d}-{signature}.jpg'
+                d.line((108, top+420, 1182, top+420), fill=theme['line'], width=2)
+        signature = hashlib.sha256((RENDER_VERSION+json.dumps([group,theme],ensure_ascii=False,sort_keys=True)).encode()).hexdigest()[:12]
+        filename = f'card-{number:06d}-{theme_name}-{signature}.jpg'
         img.save(OUT / filename, quality=93, optimize=True, subsampling=0)
-        cards.append({'id': number, 'image': filename, 'entryIds':[e['entryId'] for e in group], 'entries':group})
+        images[theme_name]=filename
+        if number==1:
+            alias={'black':'siyah.jpg','navy':'lacivert.jpg','purple':'mor.jpg'}[theme_name]
+            (OUT/alias).write_bytes((OUT/filename).read_bytes())
+            if theme_name=='black': (OUT/'0001.jpg').write_bytes((OUT/filename).read_bytes())
+      cards.append({'id': number, 'image': images['black'], 'images':images, 'entryIds':[e['entryId'] for e in group], 'entries':group})
     manifest={'version':2,'stage':'complete' if complete else 'content-in-progress',
               'complete':complete,'catalogTotal':catalog['total'],'readyExpressions':len(entries),
               'pendingExpressions':catalog['total']-len(entries),'targetExpressions':catalog['total'],
               'count':len(cards),'width':W,'height':H,'hours':list(range(8,23)),
-              'cycleAtEnd':complete,'cards':cards}
+              'cycleAtEnd':complete,'defaultTheme':'black',
+              'themes':{k:v['label'] for k,v in THEMES.items()},'cards':cards}
     # The phone downloads only lightweight image pointers, not thousands of examples.
     phone=dict(manifest,cards=[{k:v for k,v in c.items() if k!='entries'} for c in cards])
     (ROOT/'manifest.json').write_text(json.dumps(phone,ensure_ascii=False,separators=(',',':')),encoding='utf-8')
+    for theme_name in THEMES:
+        themed=dict(phone,cards=[dict(c,image=c['images'][theme_name]) for c in phone['cards']])
+        (ROOT/f'manifest-{theme_name}.json').write_text(json.dumps(themed,ensure_ascii=False,separators=(',',':')),encoding='utf-8')
     (ROOT/'manifest.js').write_text('window.CARD_MANIFEST = '+json.dumps(manifest,ensure_ascii=False)+';\n',encoding='utf-8')
     print(f"Validated and rendered {len(cards)} cards ({W} x {H}).")
 

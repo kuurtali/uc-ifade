@@ -62,3 +62,7 @@ Profil README’sindeki günlük söz sistemi incelendi. Orada zamanlanmış Git
 - [Oxford Phrase List PDF](https://www.oxfordlearnersdictionaries.com/external/pdf/wordlists/oxford-phrase-list/Oxford%20Phrase%20List.pdf)
 
 PDF’leri üst klasöre `Oxford_3000.pdf`, `Oxford_5000_Ek_2000.pdf`, `Oxford_Phrase_List_750.pdf` adlarıyla koyup `python import_catalog.py --pdf-dir ../` çalıştırarak yeniden içeri aktarabilirsin. Mevcut içerik ve sıra korunur. Kaynak sürümü değişirse kimlik uyuşmazlığı sessizce sıra değiştirmek yerine işlemi durdurur.
+
+## Arka planlar
+
+Siyah (varsayılan), lacivert ve koyu mor seçenekleri bütün hazır kartlarda bulunur. Sitede seçilen renk indirme/kopyalama bağlantısına uygulanır. Telefonda aynı rengi kullanmak için `manifest-black.json`, `manifest-navy.json` veya `manifest-purple.json` seçilir. İlk kartın kolay bağlantıları `siyah.jpg`, `lacivert.jpg`, `mor.jpg`; eski `0001.jpg` de siyah olarak güncellenir. Renk değişimi mevcut kart sırasını değiştirmez.

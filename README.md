@@ -1,8 +1,8 @@
-# Üç İfade
+# İfade
 
 [Kartları aç](https://kuurtali.github.io/uc-ifade/) · [iPhone kurulumu](https://kuurtali.github.io/uc-ifade/kurulum.html)
 
-Her ekranda üç İngilizce ifade: Türkçe anlam, özgün İngilizce örnek ve örneğin Türkçe çevirisi. iPhone 15 Pro Max için 1290 × 2796 görseller. 08.00–22.00 arasında saatte bir değişim; 15 günlük tetikleyici Kestirmeler’de bir kez kurulur.
+Her ekranda altı karışık İngilizce ifade: Türkçe anlam, özgün İngilizce örnek ve örneğin Türkçe çevirisi. iPhone 15 Pro Max için 1290 × 2796 görseller. 08.00–22.00 arasında saatte bir değişim; 15 günlük tetikleyici Kestirmeler’de bir kez kurulur.
 
 ## Durum
 
@@ -21,7 +21,7 @@ OPAL/AWL ve başka akademik ek listeler kapsam dışıdır. Ana listelerdeki C1 
 - `manifest.js`: web önizlemesinin içeriği. `card-*.jpg`: içerik sürümlü görsel adresleri.
 - `content_tool.py`: bekleyen içeriği paketler halinde dışarı alma ve denetlenmiş içerik ekleme.
 
-Hazır kartlar bitince koleksiyon tamamlanana kadar kestirme durur; yeni kartlar geldiğinde kaldığı yerden devam eder. Tüm katalog tamamlanınca aynı kestirme tur sonunda başa döner. Son karttaki boş yerler TEKRAR etiketli ifadelerle tamamlanır. 5.753 girdi tamamlandığında 1.918 kart, günde 15 başarılı değişimle yaklaşık 128 gün eder. Gösterim, öğrenme anlamına gelmez.
+Hazır kartlar bitince koleksiyon tamamlanana kadar kestirme durur; yeni kartlar geldiğinde kaldığı yerden devam eder. Tüm katalog tamamlanınca aynı kestirme tur sonunda başa döner. Son karttaki boş yerler TEKRAR etiketli ifadelerle tamamlanır. Hedef 6.000 ifade: 1.000 altılı kart, günde 15 başarılı değişimle 90 ifade ve yaklaşık 67 günlük bir tur. Mevcut 5.753 kaynak girdisine 247 ek girdi gerekir; bunlar henüz eklenmedi ve Oxford girdisi olarak gösterilmeyecek. Gösterim, öğrenme anlamına gelmez.
 
 ## İçerik tamamlama
 
@@ -45,7 +45,7 @@ Tam koleksiyon yayını öncesi denetim:
 python build.py --validate-only --require-complete
 ```
 
-Eksik tek girdi bile varsa komut hata verir. Testler binlerce girdinin sıra kaybı olmadan üçlü gösterimini, kısmi kartın yeni içerikle tamamlanmasını ve eksik içerik engelini kapsar. Windows’ta Segoe UI, Linux’ta DejaVu Sans kullanılır; gerekirse `CARD_FONT` ve `CARD_FONT_BOLD` Unicode TTF yollarıyla ayarlanır.
+Eksik tek girdi bile varsa komut hata verir. Testler binlerce girdinin sıra kaybı olmadan altılı gösterimini, kısmi kartın yeni içerikle tamamlanmasını ve eksik içerik engelini kapsar. Windows’ta Segoe UI, Linux’ta DejaVu Sans kullanılır; gerekirse `CARD_FONT` ve `CARD_FONT_BOLD` Unicode TTF yollarıyla ayarlanır.
 
 ## Yayın ve telefon
 
@@ -65,4 +65,10 @@ PDF’leri üst klasöre `Oxford_3000.pdf`, `Oxford_5000_Ek_2000.pdf`, `Oxford_P
 
 ## Arka planlar
 
-Siyah (varsayılan), lacivert ve koyu mor seçenekleri bütün hazır kartlarda bulunur. Sitede seçilen renk indirme/kopyalama bağlantısına uygulanır. Telefonda aynı rengi kullanmak için `manifest-black.json`, `manifest-navy.json` veya `manifest-purple.json` seçilir. İlk kartın kolay bağlantıları `siyah.jpg`, `lacivert.jpg`, `mor.jpg`; eski `0001.jpg` de siyah olarak güncellenir. Renk değişimi mevcut kart sırasını değiştirmez.
+Mor / yumuşak sarı (varsayılan), siyah ve lacivert seçenekleri bütün hazır kartlarda bulunur. Sitede seçilen renk indirme/kopyalama bağlantısına uygulanır. Telefonda aynı rengi kullanmak için `manifest-black.json`, `manifest-navy.json` veya `manifest-purple.json` seçilir. İlk kartın kolay bağlantıları `siyah.jpg`, `lacivert.jpg`, `mor.jpg`; eski `0001.jpg` de mor/sarı altılı kart olarak güncellenir. Renk değişimi mevcut kart sırasını değiştirmez.
+
+## Altılı karışık düzen
+
+Kimlikler `ordering.py` ile kelime, kalıp ve seviye ayrımı yapmadan tekrar üretilebilir biçimde karıştırılır. `mixed-catalog-order.json` bütün kaynak sırasını gösterir; `deck-order.json` hazır içeriğin sırasıdır. Yeni hazır içerik karıştırılarak sona eklenir; mevcut yayımlanmış kartlar yeniden sıralanmaz. Bu sürüme geçişte hazır 30 ifade bir kez yeniden karıştırıldı. Eski üçlü sıra sayacı kuruluysa `son-kart.txt` bir kez 0 yapılmalıdır.
+
+`0001.jpg` ve `mor.jpg` adresleri korunur ve aynı ilk altılı kartı gösterir. Sabit görsel bağlantısı saatlik değişim mekanizması değildir; sıra takip eden kestirme rehberde açıklanır. Yayımdaki içerik henüz 30 hazır ifade / 5 karttır; 6.000 tamamlanmış ifade olarak sunulmaz.

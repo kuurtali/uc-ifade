@@ -5,24 +5,33 @@ import unittest
 from pathlib import Path
 from build import group_entries, prepare, ROOT
 from content_tool import accept
+from ordering import mixed
 
 class PipelineTests(unittest.TestCase):
     def test_full_collection_covers_all_once_before_repeat(self):
-        for count in (1,2,5750,5753,10000):
+        for count in (1,2,5750,5753,6000,10000):
             entries=[{'entryId':str(i),'repeat':False} for i in range(count)]
             groups=group_entries(entries,True)
             flat=[e for group in groups for e in group]
-            self.assertTrue(all(len(group)==3 for group in groups))
+            self.assertTrue(all(len(group)==6 for group in groups))
             self.assertEqual([e['entryId'] for e in flat[:count]],[str(i) for i in range(count)])
             self.assertTrue(all(e['repeat'] for e in flat[count:]))
 
     def test_partial_tail_waits_without_reordering(self):
         entries=[{'entryId':str(i)} for i in range(32)]
         first=group_entries(entries,False)
-        self.assertEqual(len(first),10)
-        expanded=group_entries(entries+[{'entryId':'32'}],False)
-        self.assertEqual(first,expanded[:10])
-        self.assertEqual([e['entryId'] for e in expanded[-1]],['30','31','32'])
+        self.assertEqual(len(first),5)
+        expanded=group_entries(entries+[{'entryId':str(i)} for i in range(32,36)],False)
+        self.assertEqual(first,expanded[:5])
+        self.assertEqual([e['entryId'] for e in expanded[-1]],['30','31','32','33','34','35'])
+
+    def test_mixed_catalog_is_reproducible_complete_and_not_alphabetical(self):
+        entries=[{'id':str(i),'kind':'word' if i<5000 else 'phrase'} for i in range(6000)]
+        output=mixed(entries)
+        self.assertEqual(output,mixed(list(reversed(entries))))
+        self.assertEqual({e['id'] for e in output},{e['id'] for e in entries})
+        self.assertNotEqual(output,entries)
+        self.assertEqual({e['kind'] for e in output[:100]},{'word','phrase'})
 
     def test_real_catalog_and_release_gate(self):
         catalog,ready,groups,complete=prepare()

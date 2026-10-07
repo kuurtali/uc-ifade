@@ -2,15 +2,15 @@
 const manifest = window.CARD_MANIFEST;
 const $ = id => document.getElementById(id);
 let active = 0;
-let theme = manifest.defaultTheme || 'black';
-try { const saved=localStorage.getItem('uc-ifade-theme'); if(manifest.themes?.[saved]) theme=saved; } catch {}
+let theme = manifest.defaultTheme || 'purple';
+try { const saved=localStorage.getItem('uc-ifade-theme-six'); if(manifest.themes?.[saved]) theme=saved; } catch {}
 for (const [value,label] of Object.entries(manifest.themes || {black:'Siyah'})) {
   const option=document.createElement('option'); option.value=value; option.textContent=label;
   $('theme-select').append(option);
 }
 function cardImage(card) { return card.images?.[theme] || card.image; }
 let remembered = 0;
-try { remembered = Number(localStorage.getItem('uc-ifade-preview') || 0); } catch {}
+try { remembered = Number(localStorage.getItem('uc-ifade-preview-six') || 0); } catch {}
 if (Number.isInteger(remembered) && remembered >= 0 && remembered < manifest.count) active = remembered;
 for (const card of manifest.cards) {
   const option = document.createElement('option');
@@ -21,8 +21,8 @@ $('total').textContent = '/ ' + manifest.count;
 const formatNumber = n => n.toLocaleString('tr-TR');
 $('collection-title').textContent = `${formatNumber(manifest.catalogTotal)} kaynak girdisi · ${formatNumber(manifest.readyExpressions)} hazır ifade`;
 $('collection-status').textContent = manifest.complete
-  ? `Bütün koleksiyon hazır. Günde 45 ifadeyle bir tur yaklaşık ${Math.ceil(manifest.count / 15)} gün sürer.`
-  : `${formatNumber(manifest.pendingExpressions)} ifadenin anlam ve örnekleri hazırlanacak. Şu anda ${manifest.count} üçlü kart kullanılabilir. İçerik eklendikçe aynı kestirme devam eder.`;
+  ? `Bütün koleksiyon hazır. Günde ${manifest.expressionsPerCard * manifest.hours.length} ifadeyle bir tur yaklaşık ${Math.ceil(manifest.count / 15)} gün sürer.`
+  : `${formatNumber(manifest.pendingExpressions)} ifadenin anlam ve örnekleri hazırlanacak. Şu anda ${manifest.count} altılı kart kullanılabilir. 6.000 hedefi için ayrıca ${formatNumber(manifest.additionalExpressionsNeeded || 0)} ek girdi gerekiyor.`;
 function element(tag, text, cls) {
   const el = document.createElement(tag); el.textContent = text; if (cls) el.className = cls; return el;
 }
@@ -50,14 +50,14 @@ function render() {
     $('entries').append(article);
   }
   $('status').textContent = '';
-  try { localStorage.setItem('uc-ifade-preview', active); } catch {}
+  try { localStorage.setItem('uc-ifade-preview-six', active); } catch {}
 }
 $('previous').addEventListener('click', () => {if(active > 0){active--;render();}});
 $('next').addEventListener('click', () => {if(active < manifest.count-1){active++;render();}});
 $('card-select').addEventListener('change', e => {active = Number(e.target.value);render();});
 $('theme-select').addEventListener('change',e=>{
   theme=e.target.value;
-  try {localStorage.setItem('uc-ifade-theme',theme);} catch {}
+  try {localStorage.setItem('uc-ifade-theme-six',theme);} catch {}
   render();
 });
 $('copy').addEventListener('click', async () => {

@@ -10,11 +10,13 @@ ROOT = Path(__file__).resolve().parent
 OUT = ROOT
 OUT.mkdir(exist_ok=True)
 W, H = 1290, 2796
-RENDER_VERSION = '4'
+RENDER_VERSION = '5-six-compact'
+PER_CARD = 6
+TARGET = 6000
 THEMES = {
     'black': {'label':'Siyah', 'background':'#000000','accent':'#c9d1dc','line':'#30343b','muted':'#aeb4bf','meaning':'#d1d5dd'},
     'navy': {'label':'Lacivert', 'background':'#08152e','accent':'#91bcff','line':'#283b5c','muted':'#b0bdd2','meaning':'#cbd9ef'},
-    'purple': {'label':'Koyu mor', 'background':'#21132e','accent':'#d4aff5','line':'#51385f','muted':'#c3b1ce','meaning':'#e0cde9'},
+    'purple': {'label':'Mor / yumuşak sarı', 'background':'#1c1129','accent':'#edcf83','line':'#3b2d49','muted':'#bcb0c9','meaning':'#dcd2e5'},
 }
 
 def font(size, bold=False):
@@ -56,9 +58,9 @@ def prepare(root=ROOT, require_complete=False):
             raise ValueError('Ready entry has missing content: '+e['id'])
     ready=[e for e in catalog['entries'] if e['status']=='ready']
     if set(order)!={e['id'] for e in ready}: raise ValueError('Deck must contain every ready entry exactly once')
-    complete=len(ready)==len(indexed)
+    complete=len(ready)==len(indexed) and len(indexed)>=TARGET
     if require_complete and not complete:
-        raise ValueError(f"Full release blocked: {len(indexed)-len(ready)} entries still need meaning, example and translation")
+        raise ValueError(f"Full release blocked: {max(TARGET,len(indexed))-len(ready)} entries still need complete content")
     entries=[]
     for identity in order:
         e=indexed[identity]
@@ -71,11 +73,11 @@ def prepare(root=ROOT, require_complete=False):
 
 def group_entries(entries, complete):
     groups=[]
-    for i in range(0,len(entries),3):
-        group=entries[i:i+3]
-        if len(group)<3:
+    for i in range(0,len(entries),PER_CARD):
+        group=entries[i:i+PER_CARD]
+        if len(group)<PER_CARD:
             if not complete: break
-            group=group+[dict(entries[j%len(entries)],repeat=True) for j in range(3-len(group))]
+            group=group+[dict(entries[j%len(entries)],repeat=True) for j in range(PER_CARD-len(group))]
         groups.append(group)
     return groups
 
@@ -94,30 +96,27 @@ def main():
         img = Image.new('RGB', (W, H), theme['background'])
         d = ImageDraw.Draw(img)
         # Clock and widgets occupy the empty upper area; notifications the lower area.
-        d.line((108, 677, 1182, 677), fill=theme['line'], width=2)
-        d.text((108, 698), 'ÜÇ İFADE', font=font(28, True), fill=theme['accent'])
-        d.text((970, 698), f'KART {number:04d}', font=font(28), fill=theme['muted'])
+        d.text((90, 689), 'İFADE', font=font(23), fill=theme['muted'])
+        d.text((1080, 689), f'{number:04d}', font=font(23), fill=theme['muted'])
         for slot, entry in enumerate(group):
-            top = 770 + slot * 440
-            x, width = 108, 1074
-            label=f'{entry["level"]}  ·  {entry["kind"].upper()}'
-            if entry['repeat']: label+='  ·  TEKRAR'
-            d.text((x, top), label, font=font(26), fill=theme['accent'])
-            y = top + 45
+            top = 757 + slot * 245
+            x, width = 90, 1110
+            y = top
+            expression=entry['expression']+(' · tekrar' if entry['repeat'] else '')
             for text, size, bold, color, gap in [
-                (entry['expression'], 65, True, '#fafafa', 14),
-                (entry['meaning'], 39, False, theme['meaning'], 25),
-                (entry['example'], 43, False, '#fafafa', 12),
-                (entry['translation'], 36, False, theme['muted'], 0),
+                (expression, 42, True, theme['accent'], 2),
+                (entry['meaning'], 32, False, theme['meaning'], 9),
+                (entry['example'], 34, False, '#f5f2f8', 3),
+                (entry['translation'], 30, False, theme['muted'], 0),
             ]:
                 f = font(size, bold)
                 for line in wrap(d, text, f, width):
                     d.text((x, y), line, font=f, fill=color)
-                    y += round(size * 1.25)
+                    y += round(size * 1.18)
                 y += gap
-            if y > top + 408: raise ValueError(f'Overflow on card {number}: {entry["expression"]} ({y-top}px)')
-            if slot < 2:
-                d.line((108, top+420, 1182, top+420), fill=theme['line'], width=2)
+            if y > top + 224: raise ValueError(f'Overflow on card {number}: {entry["expression"]} ({y-top}px)')
+            if slot < PER_CARD-1:
+                d.line((90, top+232, 1200, top+232), fill=theme['line'], width=1)
         signature = hashlib.sha256((RENDER_VERSION+json.dumps([group,theme],ensure_ascii=False,sort_keys=True)).encode()).hexdigest()[:12]
         filename = f'card-{number:06d}-{theme_name}-{signature}.jpg'
         img.save(OUT / filename, quality=93, optimize=True, subsampling=0)
@@ -125,13 +124,15 @@ def main():
         if number==1:
             alias={'black':'siyah.jpg','navy':'lacivert.jpg','purple':'mor.jpg'}[theme_name]
             (OUT/alias).write_bytes((OUT/filename).read_bytes())
-            if theme_name=='black': (OUT/'0001.jpg').write_bytes((OUT/filename).read_bytes())
-      cards.append({'id': number, 'image': images['black'], 'images':images, 'entryIds':[e['entryId'] for e in group], 'entries':group})
-    manifest={'version':2,'stage':'complete' if complete else 'content-in-progress',
+            if theme_name=='purple': (OUT/'0001.jpg').write_bytes((OUT/filename).read_bytes())
+      cards.append({'id': number, 'image': images['purple'], 'images':images, 'entryIds':[e['entryId'] for e in group], 'entries':group})
+    manifest={'version':3,'deckVersion':'mixed-six-v1','expressionsPerCard':PER_CARD,
+              'stage':'complete' if complete else 'content-in-progress',
               'complete':complete,'catalogTotal':catalog['total'],'readyExpressions':len(entries),
-              'pendingExpressions':catalog['total']-len(entries),'targetExpressions':catalog['total'],
+              'pendingExpressions':catalog['total']-len(entries),'targetExpressions':TARGET,
+              'additionalExpressionsNeeded':max(0,TARGET-catalog['total']),
               'count':len(cards),'width':W,'height':H,'hours':list(range(8,23)),
-              'cycleAtEnd':complete,'defaultTheme':'black',
+              'cycleAtEnd':complete,'defaultTheme':'purple',
               'themes':{k:v['label'] for k,v in THEMES.items()},'cards':cards}
     # The phone downloads only lightweight image pointers, not thousands of examples.
     phone=dict(manifest,cards=[{k:v for k,v in c.items() if k!='entries'} for c in cards])

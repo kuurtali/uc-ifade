@@ -6,6 +6,7 @@ import argparse
 import json
 from pathlib import Path
 from build import ROOT, prepare
+from ordering import mixed
 
 FIELDS = ('meaning','example','translation')
 
@@ -23,8 +24,8 @@ def accept(catalog, order, batch):
             raise ValueError('Expression does not match source: '+identity)
         for key in ('note','displayExpression'):
             if key in content and not isinstance(content[key],str): raise ValueError('Invalid '+key)
-    # Source order makes batch import deterministic regardless of JSON key order.
-    for entry in catalog['entries']:
+    # Mix words, phrases and levels; keep all previously published positions.
+    for entry in mixed(catalog['entries']):
         if entry['id'] not in batch: continue
         content=batch[entry['id']]
         entry.update({k:content[k].strip() for k in FIELDS})
@@ -49,7 +50,7 @@ def main():
     catalog=json.loads((ROOT/'catalog.json').read_text(encoding='utf-8'))
     if args.action=='export':
         if not 1<=args.limit<=1000: raise ValueError('Limit must be 1–1000')
-        pending=[e for e in catalog['entries'] if e['status']=='pending' and (not args.source or e['source']==args.source)][:args.limit]
+        pending=[e for e in mixed(catalog['entries']) if e['status']=='pending' and (not args.source or e['source']==args.source)][:args.limit]
         batch={e['id']:{'expression':e['expression'],'level':e['level'],'sourceText':e['sourceText'],
                        'meaning':'','example':'','translation':'','reviewed':False} for e in pending}
         args.output.write_text(json.dumps(batch,ensure_ascii=False,indent=2),encoding='utf-8')

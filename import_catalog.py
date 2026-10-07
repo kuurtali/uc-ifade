@@ -12,6 +12,7 @@ import unicodedata
 from collections import Counter
 from pathlib import Path
 import pdfplumber
+from ordering import mixed
 
 ROOT = Path(__file__).resolve().parent
 SOURCES = [
@@ -114,7 +115,7 @@ def merge_content(entries):
  old=json.loads(deck_file.read_text(encoding='utf-8')) if deck_file.exists() else order
  ready={e['id'] for e in entries if e['status']=='ready'}
  if any(i not in ready for i in old):raise ValueError('Published content cannot disappear silently')
- old.extend(e['id'] for e in entries if e['status']=='ready' and e['id'] not in old)
+ old.extend(e['id'] for e in mixed(entries) if e['status']=='ready' and e['id'] not in old)
  return old
 
 def main():
@@ -128,6 +129,7 @@ def main():
           'pending':len(entries)-len(order),'entries':entries}
  (ROOT/'catalog.json').write_text(json.dumps(catalog,ensure_ascii=False,separators=(',',':')),encoding='utf-8')
  (ROOT/'deck-order.json').write_text(json.dumps(order,indent=2),encoding='utf-8')
+ (ROOT/'mixed-catalog-order.json').write_text(json.dumps([e['id'] for e in mixed(entries)]),encoding='utf-8')
  print(json.dumps({k:v for k,v in catalog.items() if k!='entries'},ensure_ascii=False))
 
 if __name__=='__main__': main()

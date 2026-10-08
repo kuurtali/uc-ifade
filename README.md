@@ -1,74 +1,41 @@
 # İfade
 
-[Kartları aç](https://kuurtali.github.io/uc-ifade/) · [iPhone kurulumu](https://kuurtali.github.io/uc-ifade/kurulum.html)
+[Site ve iPhone kurulumu](https://kuurtali.github.io/uc-ifade/#kurulum)
 
-Her ekranda altı karışık İngilizce ifade: Türkçe anlam, özgün İngilizce örnek ve örneğin Türkçe çevirisi. iPhone 15 Pro Max için 1290 × 2796 görseller. 08.00–22.00 arasında saatte bir değişim; 15 günlük tetikleyici Kestirmeler’de bir kez kurulur.
+Mor zemin, açık sarı başlıklar. Büyük Scriptable ana ekran widget’ında altı karışık kelime/kalıp; her birinde Türkçe anlam, İngilizce örnek ve Türkçe çeviri.
 
-## Durum
+## Koleksiyon
 
-Üç resmî PDF’den **5.753 kaynak girdisi** içeri aktarıldı: Oxford 3000 dosyasından 3.004, Oxford 5000 ek listesinden 1.999, Oxford Phrase List’ten 750 ana kalıp. Bu sayı PDF başlıklarındaki nominal toplamla aynı değildir; ayrı kaynak girdileri ve anlam ayrımları korunur. Aynı yazılışa sahip girdiler bulunabilir.
+Oxford 3000: 3004 PDF girdisi; Oxford 5000 ek listesi: 1999; Oxford Phrase List: 750. Toplam **5753 kayıt**. Ayrı tür ve anlam girdileri korunur. Oxford 3000, Oxford 5000’in içinde olduğundan tekrar eklenmez. Akademik ek liste yoktur.
 
-**30 ifadenin anlamı ve örnekleri hazır; 5.723 girdi bekliyor. Tam koleksiyon henüz bitmedi.** Eksik içerik kilit ekranına alınmaz. Site bütün kataloğu arama, kaynak/seviye ve hazır/bekleyen filtreleriyle gösterir. Güncel sayılar manifest dosyasındadır.
+Tüm kayıtların dört içerik alanı doludur. Türkçe anlamlar proje için yazılmıştır. Örneklerin çoğu Tatoeba’dan otomatik eşleştirilmiştir; anlam ayrımları için düzeltmeler ve özgün örnekler eklenmiştir. Tüm kayıtlar tek tek insan incelemesinden geçmiş değildir.
 
-OPAL/AWL ve başka akademik ek listeler kapsam dışıdır. Ana listelerdeki C1 ifadeler korunur. Oxford’un resmî uygulaması değildir. PDF’ler depoda yeniden dağıtılmaz; örnekler sözlükten kopyalanmaz, bu proje için yazılır.
+## iPhone
 
-## Binlerce girdiye göre yapı
+1. App Store’dan [Scriptable](https://apps.apple.com/app/scriptable/id1405459188) indir.
+2. Sitedeki **Widget kodunu kopyala** düğmesini kullan. Scriptable’da + ile yeni betik aç, yapıştır, adını **İfade** yap. ▶ ile bir kez çalıştır.
+3. Ana ekrana büyük Scriptable widget’ı ekle. Widget’ı Düzenle → Script → İfade seç.
 
-- `catalog.json`: sabit kimlik, kaynak PDF/sayfa, seviye, varyant ve içerik durumu.
-- `deck-order.json`: kalıcı sıra; yeni hazır içerik sona eklenir.
-- `data.tsv`: ilk 30 özgün örnek. `content.json`: sonradan tamamlanan içerik.
-- `manifest.json`: telefonun indirdiği küçük kart listesi ve `cycleAtEnd` bilgisi.
-- `manifest.js`: web önizlemesinin içeriği. `card-*.jpg`: içerik sürümlü görsel adresleri.
-- `content_tool.py`: bekleyen içeriği paketler halinde dışarı alma ve denetlenmiş içerik ekleme.
+Her gün kurulum gerekmez. Gruplar Türkiye saatine göre 00, 02, 04… saatlerinde değişir. `refreshAfterDate` iOS’a yenilenme zamanı bildirir; tam saat garantisi vermez. Pil ve sistem planlaması yenilenmeyi geciktirebilir. İlk yüklemeden sonra yerel koleksiyonla çevrimdışı çalışır. Eski JPG bağlantıları sabit görseldir; kendiliğinden yenilenmez.
 
-Hazır kartlar bitince koleksiyon tamamlanana kadar kestirme durur; yeni kartlar geldiğinde kaldığı yerden devam eder. Tüm katalog tamamlanınca aynı kestirme tur sonunda başa döner. Son karttaki boş yerler TEKRAR etiketli ifadelerle tamamlanır. Hedef 6.000 ifade: 1.000 altılı kart, günde 15 başarılı değişimle 90 ifade ve yaklaşık 67 günlük bir tur. Mevcut 5.753 kaynak girdisine 247 ek girdi gerekir; bunlar henüz eklenmedi ve Oxford girdisi olarak gösterilmeyecek. Gösterim, öğrenme anlamına gelmez.
+Altı ifadeli görünüm **ana ekran** içindir. Dikdörtgen kilit ekranı widget’ında tek ifade ve örnek gösterilir. Widget parametresi 0–5 ile gruptaki ifade seçilebilir.
 
-## İçerik tamamlama
+## Dosyalar
 
-Python 3 ve Pillow gerekir. Yalnızca PDF’leri yeniden içeri aktarmak için pdfplumber gerekir. Hazır kataloğa içerik eklemek için ücretli API gerekmez.
+- `Ifade.js`: kurulacak hazır Scriptable betiği.
+- `widget-data.json`: widget için küçük, eksiksiz koleksiyon.
+- `collection.json`: kaynak ve cümle atıflarıyla tam koleksiyon.
+- `widget-core.js`: web ve widget için ortak zaman/sıralama mantığı.
+- `widget-runtime.js`: önbellek, çevrimdışı kullanım, widget çizimi.
+- `widget-site.js`, `widget-site.css`, `index.html`: web önizlemesi, arama, kurulum.
+- `test_widget.cjs`: iki saat sınırları, gece geçişi, bütün listenin dolaşılması ve ağ kesintisi kontrolleri.
 
-```sh
-python content_tool.py export batch.json --limit 100
-# Anlam, doğal İngilizce örnek ve örneğin Türkçe çevirisini yaz.
-# Kaynak satırındaki anlam ve sözcük türüyle uyumunu kontrol et.
-# Kontrol sonrası her girdinin reviewed değerini true yap.
-python content_tool.py accept batch.json
-python -m unittest test_pipeline.py
-python build.py
-```
+## Kaynak ve lisans
 
-`reviewed` otomatik dil doğruluğu kanıtı değildir; editoryal kontrolü kaydeder. Eksik alan, bilinmeyen kimlik ve yayımlanmış girdileri yanlışlıkla değiştiren paketler reddedilir. Metin görsele sığmazsa üretim durur; örnek kısa ve doğal olacak şekilde düzenlenir. Başarılı üretimden sonra güncel veri, manifest dosyaları ve yeni görseller birlikte yüklenir.
+Oxford PDF’leri kelime ve kalıp seçimi içindir; bu proje Oxford’un resmî ürünü değildir. Kaynak PDF bağlantıları her kayıtta bulunur. Oxford tanım ve örnek cümleleri kopyalanmamıştır.
 
-Tam koleksiyon yayını öncesi denetim:
+Tatoeba İngilizce/Türkçe cümle çiftleri [ManyThings derlemesinden](https://www.manythings.org/anki/) alınmıştır; **[CC BY 2.0 France](https://creativecommons.org/licenses/by/2.0/fr/)**. İlgili her kayıtta iki cümlenin numarası, katkıcısı ve lisans atfı bulunur. Web ayrıntı görünümü bunları kaynak bağlantılarıyla gösterir. Proje için yazılmış anlamlar ve özgün örnekler CC BY 4.0 altında kullanılabilir; atıf: İfade projesi. Yazılım MIT lisanslıdır.
 
-```sh
-python build.py --validate-only --require-complete
-```
+## Doğrulama sınırı
 
-Eksik tek girdi bile varsa komut hata verir. Testler binlerce girdinin sıra kaybı olmadan altılı gösterimini, kısmi kartın yeni içerikle tamamlanmasını ve eksik içerik engelini kapsar. Windows’ta Segoe UI, Linux’ta DejaVu Sans kullanılır; gerekirse `CARD_FONT` ve `CARD_FONT_BOLD` Unicode TTF yollarıyla ayarlanır.
-
-## Yayın ve telefon
-
-GitHub Pages: Settings → Pages → Deploy from a branch → main → /(root). Saatlik sunucu işi veya açık bilgisayar gerekmez. HTML tek başına duvar kâğıdını değiştirmez; günlük tetikleyiciler iPhone’da çalışır.
-
-Kestirme, indirme ve duvar kâğıdı uygulaması başarılı olduktan sonra sırayı iCloud Drive’a kaydeder. İnternet veya eylem hatasında sıra ilerlemez. Telefon kapalıyken geçen saatler telafi edilmez. **Kilitliyken çalışma kullanıcının iPhone’unda henüz denenmedi.** Hazır imzalı iCloud kestirme bağlantısı yerine adım adım rehber bulunur.
-
-Profil README’sindeki günlük söz sistemi incelendi. Orada zamanlanmış GitHub Actions rastgele söz seçiyor; burada bütün ifadelerden geçebilmek için kalıcı sıra kullanılıyor. Profil deposu değiştirilmedi.
-
-## Kaynaklar
-
-- [Oxford 3000 PDF](https://www.oxfordlearnersdictionaries.com/external/pdf/wordlists/oxford-3000-5000/The_Oxford_3000.pdf)
-- [Oxford 5000 ek liste PDF](https://www.oxfordlearnersdictionaries.com/external/pdf/wordlists/oxford-3000-5000/The_Oxford_5000.pdf)
-- [Oxford Phrase List PDF](https://www.oxfordlearnersdictionaries.com/external/pdf/wordlists/oxford-phrase-list/Oxford%20Phrase%20List.pdf)
-
-PDF’leri üst klasöre `Oxford_3000.pdf`, `Oxford_5000_Ek_2000.pdf`, `Oxford_Phrase_List_750.pdf` adlarıyla koyup `python import_catalog.py --pdf-dir ../` çalıştırarak yeniden içeri aktarabilirsin. Mevcut içerik ve sıra korunur. Kaynak sürümü değişirse kimlik uyuşmazlığı sessizce sıra değiştirmek yerine işlemi durdurur.
-
-## Arka planlar
-
-Mor / yumuşak sarı (varsayılan), siyah ve lacivert seçenekleri bütün hazır kartlarda bulunur. Sitede seçilen renk indirme/kopyalama bağlantısına uygulanır. Telefonda aynı rengi kullanmak için `manifest-black.json`, `manifest-navy.json` veya `manifest-purple.json` seçilir. İlk kartın kolay bağlantıları `siyah.jpg`, `lacivert.jpg`, `mor.jpg`; eski `0001.jpg` de mor/sarı altılı kart olarak güncellenir. Renk değişimi mevcut kart sırasını değiştirmez.
-
-## Altılı karışık düzen
-
-Kimlikler `ordering.py` ile kelime, kalıp ve seviye ayrımı yapmadan tekrar üretilebilir biçimde karıştırılır. `mixed-catalog-order.json` bütün kaynak sırasını gösterir; `deck-order.json` hazır içeriğin sırasıdır. Yeni hazır içerik karıştırılarak sona eklenir; mevcut yayımlanmış kartlar yeniden sıralanmaz. Bu sürüme geçişte hazır 30 ifade bir kez yeniden karıştırıldı. Eski üçlü sıra sayacı kuruluysa `son-kart.txt` bir kez 0 yapılmalıdır.
-
-`0001.jpg` ve `mor.jpg` adresleri korunur ve aynı ilk altılı kartı gösterir. Sabit görsel bağlantısı saatlik değişim mekanizması değildir; sıra takip eden kestirme rehberde açıklanır. Yayımdaki içerik henüz 30 hazır ifade / 5 karttır; 6.000 tamamlanmış ifade olarak sunulmaz.
+Otomatik kontroller gerçek iPhone testi değildir. Web görünümü ve veri dolaşımı doğrulanabilir; gerçek Scriptable yerleşimi ve iOS yenileme davranışı cihazda kontrol edilmelidir.

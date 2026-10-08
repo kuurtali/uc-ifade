@@ -2,6 +2,15 @@ const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('nod
 const core=require('./widget-core.js');
 const fake={schema:1,entries:Array.from({length:5753},(_,i)=>({id:'e'+i,expression:'word '+i,meaning:'anlam',example:'This is a short example.',translation:'Bu kısa bir örnektir.'}))};
 core.validate(fake);
+const real=core.validate(JSON.parse(fs.readFileSync('widget-data.json','utf8')));
+const full=JSON.parse(fs.readFileSync('collection.json','utf8'));
+assert.equal(real.entries.length,5753);
+assert.equal(full.entries.filter(e=>e.kind==='phrase').length,750);
+assert.deepEqual(real.entries.map(e=>e.id),full.entries.map(e=>e.id));
+for(const e of full.entries){
+  assert(!Object.values(e).some(v=>typeof v==='string'&&v.includes('\ufffd')));
+  if(e.attribution)assert(/#\d+/.test(e.attribution));
+}
 const out=[];for(let n=0;n<959;n++)out.push(...core.selection(fake,core.EPOCH+n*core.PERIOD).entries.map(e=>e.id));
 assert.equal(new Set(out.slice(0,5753)).size,5753);assert.equal(out[5753],'e0');
 assert.equal(core.selection(fake,core.EPOCH+core.PERIOD-1).start,0);

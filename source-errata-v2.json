@@ -1,0 +1,22 @@
+{
+  "checkedAt": "2026-10-09",
+  "note": "Raw PDF sourceText and stable IDs are preserved. Corrections concern learning metadata only.",
+  "entries": {
+    "ox-0df58f7afcfb842f": {
+      "sourceFile": "outputs/Oxford_5000_Ek_2000.pdf",
+      "sourcePage": 3,
+      "originalSourceText": "diplomatic n. C1",
+      "correctedPartOfSpeech": "adjective",
+      "evidenceUrl": "https://www.oxfordlearnersdictionaries.com/definition/english/diplomatic",
+      "reason": "The saved PDF text itself labels diplomatic n.; the official dictionary identifies it as an adjective in both diplomatic-relations and tactful senses. PDF text checked with pdfplumber."
+    },
+    "ox-7e1638d16bcabcbd": {
+      "sourceFile": "outputs/Oxford_5000_Ek_2000.pdf",
+      "sourcePage": 5,
+      "originalSourceText": "nursing adj. B2",
+      "correctedPartOfSpeech": "noun",
+      "evidenceUrl": "https://www.oxfordlearnersdictionaries.com/definition/english/nursing",
+      "reason": "The saved PDF text labels nursing adj.; the official dictionary lists nursing as an uncountable noun, including attributive uses such as nursing care. PDF text checked with pdfplumber. Raw source text and ID are preserved."
+    }
+  }
+}

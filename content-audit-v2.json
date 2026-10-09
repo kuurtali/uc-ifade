@@ -1,0 +1,7 @@
+{
+  "total": 5750,
+  "reviewed": 5750,
+  "mechanicallyChecked": 5750,
+  "flags": {},
+  "scope": "Field completeness, Unicode, attribution, length, sense markers. Not a semantic correctness guarantee."
+}

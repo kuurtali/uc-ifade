@@ -1,0 +1,16 @@
+{
+  "raw": 5753,
+  "canonical": 5750,
+  "merged": {
+    "ox-a0275966037bb2df": "ox-9462dc080673db35",
+    "ox-9aacc24343d7cecc": "ox-d8cea83174aa4d73",
+    "ox-f1c65a79c71ad0c9": "ox-a498b839c02b2f02"
+  },
+  "reason": "audio, gender and well-being occur in both word PDFs with overlapping lexical categories; retain both source references.",
+  "phrasePolicy": "The 750 Phrase List items are preserved as learning entries, including because of and instead of, also present in the word list.",
+  "sourceSha256": {
+    "Oxford_3000.pdf": "61a2201c44b390ec579365b4ca805f6ab536bd7b2cb61c78bc599d43b5958112",
+    "Oxford_5000_Ek_2000.pdf": "5cd1e8653c7b0d0ebc2f5c39edaa847cc608e16f6cdc95cb1e2d32143260e3cd",
+    "Oxford_Phrase_List_750.pdf": "35da430c8c0353d4a44c6293ca0d05ae00787488562beaed1ff2835c6e37e118"
+  }
+}

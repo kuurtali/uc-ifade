@@ -10,6 +10,8 @@ Mor ve altın renkli iPhone ana ekran widget’ı: **5.000 kelime + 750 kalıp**
 
 *Gerçek iPhone 15 Pro Max görüntüsü. Bu altılı grupta 12 örnek kesilmeden görünüyor; diğer ekran boyutları ve V2’nin uzun süreli yenilenmesi henüz doğrulanmadı.*
 
+[Gerçek ekran görüntüleriyle kurulum →](https://kuurtali.github.io/uc-ifade/kurulum-gorselli.html)
+
 ## Phrases zaten kuruluysa
 
 Widget’ı silmeden, **bir kez** kodunu güncelle:
@@ -22,7 +24,7 @@ Widget’ı silmeden, **bir kez** kodunu güncelle:
 
 1. [Scriptable’ı indir](https://apps.apple.com/app/scriptable/id1405459188). [Siteden](https://kuurtali.github.io/uc-ifade/#kurulum) **Widget kodunu kopyala**.
 2. Scriptable’da **+** → kodu yapıştır → adını **İfade** yap → **▶** ile çalıştır → editörden çık.
-3. Ana ekranda boş yere uzun bas → **Düzenle → Widget Ekle → Scriptable** → **büyük kare** widget’ı ekle. Widget’a uzun bas → **Widget’ı Düzenle → Script → İfade**.
+3. Ana ekranda boş yere uzun bas → **Düzenle → Widget Ekle → Scriptable** → **büyük kare** widget’ı ekle. Widget’a uzun bas → **Araç Takımını Düzenle → Script → İfade**.
 
 ## Günlük kullanım
 

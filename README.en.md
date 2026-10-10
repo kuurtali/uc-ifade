@@ -10,6 +10,8 @@ A purple and gold iPhone Home Screen widget with **5,000 word entries + 750 phra
 
 *Actual iPhone 15 Pro Max screenshot. All twelve examples fit in this group. Other screen sizes and long-running V2 refresh remain unverified.*
 
+[Step-by-step screenshots (Turkish UI) →](https://kuurtali.github.io/uc-ifade/kurulum-gorselli.html)
+
 ## Already using Phrases?
 
 Keep your widget and update its script **once**:

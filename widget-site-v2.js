@@ -3,6 +3,8 @@ let data,offset=0,limit=24,timer,scriptCode='';
 const $=s=>document.querySelector(s), format=n=>n.toLocaleString('tr-TR');
 const el=(tag,cls,value)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(value!==undefined)n.textContent=value;return n};
 const time=t=>new Intl.DateTimeFormat('tr-TR',{hour:'2-digit',minute:'2-digit',timeZone:'Europe/Istanbul'}).format(t);
+// One forgiving key for both English I and Turkish İ/ı, including unaccented queries.
+const searchKey=s=>s.toLocaleLowerCase('tr-TR').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/ı/g,'i');
 function sample(s,i){const node=el('div','sample');node.append(el('p','meaning',(i+1)+' · '+s.meaning),el('p','example',s.example),el('p','translation',s.translation));return node}
 function openEntry(id,push=true){
  const e=IfadeCore.findEntry(data,id);if(!e)return;
@@ -21,8 +23,8 @@ function paint(){
  clearTimeout(timer);const current=IfadeCore.selection(data,Date.now());timer=setTimeout(paint,Math.max(100,current.next-Date.now()+50));
 }
 function search(){
- if(!data)return;const q=$('#search').value.trim().toLocaleLowerCase('tr-TR');
- const found=data.entries.filter(e=>(e.expression+' '+e.examples.map(s=>s.meaning+' '+s.example+' '+s.translation).join(' ')).toLocaleLowerCase('tr-TR').includes(q));
+ if(!data)return;const q=searchKey($('#search').value.trim());
+ const found=data.entries.filter(e=>searchKey(e.expression+' '+e.examples.map(s=>s.meaning+' '+s.example+' '+s.translation).join(' ')).includes(q));
  $('#search-status').textContent=format(found.length)+' kayıt'+(q?' bulundu':' · her birinde çevirili iki örnek');
  $('#results').replaceChildren(...found.slice(0,limit).map(e=>{const b=el('button','result');b.append(el('span','tag',e.level+' · '+(e.kind==='phrase'?'KALIP':'KELİME')),el('h3','',e.expression),el('p','',e.meaning));b.addEventListener('click',()=>openEntry(e.id));return b}));
  $('#more').hidden=limit>=found.length;
@@ -31,6 +33,6 @@ $('#prev').onclick=()=>{offset--;paint()};$('#next').onclick=()=>{offset++;paint
 $('#search').addEventListener('input',()=>{limit=24;search()});$('#more').onclick=()=>{limit+=24;search()};
 $('#detail .close').onclick=()=>$('#detail').close();$('#detail').addEventListener('close',()=>history.replaceState(null,'',location.pathname+location.hash));
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)paint()});
-fetch('Ifade-v2.js?v=20261010').then(r=>{if(!r.ok)throw Error();return r.text()}).then(s=>{scriptCode=s;$('#script-text').value=s}).catch(()=>{$('#copy-status').textContent='Kod yüklenemedi. Bağlantını kontrol edip sayfayı yenile.'});
+fetch('Ifade-v2.js?v=20261010b').then(r=>{if(!r.ok)throw Error();return r.text()}).then(s=>{scriptCode=s;$('#script-text').value=s}).catch(()=>{$('#copy-status').textContent='Kod yüklenemedi. Bağlantını kontrol edip sayfayı yenile.'});
 $('#copy-script').onclick=async()=>{if(!scriptCode){$('#copy-status').textContent='Kod henüz yüklenmedi. Birkaç saniye sonra tekrar dokun.';return;}try{await navigator.clipboard.writeText(scriptCode);$('#copy-status').textContent='Kopyalandı. Mevcut Phrases/İfade betiğinin tamamını bununla değiştir veya yeni bir betiğe yapıştır.'}catch(_){$('#manual-copy').open=true;$('#script-text').focus();$('#script-text').select();$('#copy-status').textContent='Aşağıdaki metnin tümünü seçip kopyala.'}};
-fetch('collection-v2.json?v=20261010').then(r=>{if(!r.ok)throw Error('Koleksiyon yüklenemedi');return r.json()}).then(d=>{data=IfadeCore.validate(d);paint();search();const id=new URLSearchParams(location.search).get('entry');if(id)openEntry(id,false)}).catch(err=>{$('#current-six').replaceChildren(el('p','error',err.message+'. Sayfayı yeniden yükle.'));$('#widget-count').textContent='Bağlantı bekleniyor'});
+fetch('collection-v2.json?v=20261010b').then(r=>{if(!r.ok)throw Error('Koleksiyon yüklenemedi');return r.json()}).then(d=>{data=IfadeCore.validate(d);paint();search();const id=new URLSearchParams(location.search).get('entry');if(id)openEntry(id,false)}).catch(err=>{$('#current-six').replaceChildren(el('p','error',err.message+'. Sayfayı yeniden yükle.'));$('#widget-count').textContent='Bağlantı bekleniyor'});

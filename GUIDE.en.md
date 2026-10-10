@@ -8,7 +8,7 @@ A purple and gold Scriptable Home Screen widget for English learners who speak T
 
 ![Approximate two-example widget layout](preview-v2.png)
 
-*Layout illustration, not an iPhone screenshot. Native V2 layout still requires device verification; the previous single-example widget was tested on the user's phone.*
+*Approximate layout illustration. A separate real iPhone 15 Pro Max screenshot now confirms one six-entry V2 group with twelve examples. Other groups and screen sizes remain unverified.*
 
 ## Install once
 
@@ -32,7 +32,7 @@ The PDFs contain 3,004 Oxford 3000 entries, 1,999 additional Oxford 5000 entries
 
 Every record received AI-assisted editorial review of both examples, senses and translations. This is not independent human review, exhaustive dictionary verification, or a guarantee of correctness. [Additional dictionary evidence](meaning-evidence-v2.json) covers only 28 specified records. Two examples cannot cover every possible sense.
 
-Mechanical checks passed for completeness and distinct examples. Approximate Arial layout checks cover 2,875 reachable group starts. Real iPhone font metrics and OS scheduling still need device verification.
+Mechanical checks passed for completeness and distinct examples. Approximate Arial layout checks cover 2,875 reachable group starts. One V2 group was visually verified on iPhone 15 Pro Max; long-running V2 scheduling and other screen sizes still need device verification.
 
 ## Development and licenses
 
@@ -50,3 +50,6 @@ python work/v2/build.py
 Code: [MIT](LICENSE). Original project learning text: CC BY 4.0. Oxford materials and legacy Tatoeba content retain their own rights and attribution. Read [CONTENT-LICENSE.md](CONTENT-LICENSE.md) and [CONTRIBUTING.md](CONTRIBUTING.md).
 
 This is not an official Oxford University Press or Scriptable product.
+
+
+[Gerçek cihaz görüntüsü / Device screenshot](widget-iphone.jpg) · [Geri bildirim / Feedback](FEEDBACK.md)

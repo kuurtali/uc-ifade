@@ -12,7 +12,7 @@ Mor ve altın renkli iPhone ana ekran widget’ı. Oxford kelimeleri ve günlük
 
 ![İki örnekli widget için yaklaşık yerleşim](preview-v2.png)
 
-*Bu görsel yaklaşık yerleşim çizimidir; iPhone ekran görüntüsü değildir. İki örnekli V2’nin gerçek cihaz görünümü henüz doğrulanmadı. Tek örnekli önceki sürüm kullanıcı cihazında çalıştı ve yenilendi.*
+*Bu görsel yaklaşık yerleşim çizimidir; iPhone ekran görüntüsü değildir. 10 Ekim’de gerçek iPhone 15 Pro Max ekranında bir altılı grubun 12 örneği kesilmeden görüldü; tüm gruplar veya diğer cihazlar için doğrulama yapılmadı. Tek örnekli önceki sürüm kullanıcı cihazında çalıştı ve yenilendi.*
 
 ## Bir kez kur
 
@@ -65,3 +65,6 @@ Kendi GitHub Pages kopyanı kullanacaksan `work/v2/widget-runtime.js` içindeki 
 Yazılım **[MIT](LICENSE)**. Projenin özgün anlam/örnek/çeviri metinleri **CC BY 4.0**; Oxford listelerine veya üçüncü taraf içeriklerine yeniden lisans verilmez. Eski V1 Tatoeba atıfları korunur. [Kapsam ve atıf ayrıntıları](CONTENT-LICENSE.md).
 
 Bu proje Oxford University Press veya Scriptable’ın resmî ürünü değildir.
+
+
+[Gerçek cihaz görüntüsü / Device screenshot](widget-iphone.jpg) · [Geri bildirim / Feedback](FEEDBACK.md)

@@ -6,9 +6,9 @@ Mor ve altın renkli iPhone ana ekran widget’ı: **5.000 kelime + 750 kalıp**
 
 [Siteyi aç ve kur →](https://kuurtali.github.io/uc-ifade/#kurulum) · [English](README.en.md)
 
-![İki örnekli widget için yaklaşık yerleşim](preview-v2.png)
+<img src="widget-iphone.jpg" alt="iPhone 15 Pro Max ana ekranında altı ifade ve on iki örnek" width="360">
 
-*Yerleşim önizlemesidir; gerçek iPhone görüntüsü değildir. İki örnekli sürümün cihaz kontrolü sürüyor.*
+*Gerçek iPhone 15 Pro Max görüntüsü. Bu altılı grupta 12 örnek kesilmeden görünüyor; diğer ekran boyutları ve V2’nin uzun süreli yenilenmesi henüz doğrulanmadı.*
 
 ## Phrases zaten kuruluysa
 
@@ -31,6 +31,10 @@ Widget’ı silmeden, **bir kez** kodunu güncelle:
 - İçerik ilk çalışmada indirilir. Kayıtlı veri 24 saati geçtiğinde bir sonraki çalışmada güncelleme denenir; internetsizken son indirilen koleksiyon kullanılır.
 - İçerik düzeltmeleri otomatik gelir. Widget kodu değişen sürümler için yukarıdaki tek seferlik güncelleme gerekir.
 - Kilit ekranı alanı yalnız tek ifade gösterir; altılı görünüm **ana ekrandadır**.
+
+## Deneyimini paylaş
+
+[İçerik düzeltmesi, widget sorunu veya kullanım deneyimi →](FEEDBACK.md) GitHub hesabı gerekir; gönderilen geri bildirim herkese açıktır.
 
 ## Kaynaklar ve katkı
 

@@ -6,9 +6,9 @@ A purple and gold iPhone Home Screen widget with **5,000 word entries + 750 phra
 
 [Open the site and install →](https://kuurtali.github.io/uc-ifade/#kurulum) · [Türkçe](README.md)
 
-![Approximate two-example widget layout](preview-v2.png)
+<img src="widget-iphone.jpg" alt="Six entries and twelve examples on an iPhone 15 Pro Max Home Screen" width="360">
 
-*Layout preview, not an iPhone screenshot. The two-example version still needs device verification.*
+*Actual iPhone 15 Pro Max screenshot. All twelve examples fit in this group. Other screen sizes and long-running V2 refresh remain unverified.*
 
 ## Already using Phrases?
 
@@ -31,6 +31,10 @@ Keep your widget and update its script **once**:
 - Data downloads on first run. Once the cache is over 24 hours old, the next run attempts an update; offline runs use the cached collection.
 - Content fixes arrive automatically. Releases that change the script require a one-time code update.
 - The Lock Screen version shows one entry. The six-entry layout belongs on the **Home Screen**.
+
+## Share feedback
+
+[Content corrections, widget problems or usage feedback →](FEEDBACK.md) Requires a GitHub account; submitted reports are public.
 
 ## Sources and contributions
 

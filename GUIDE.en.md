@@ -32,7 +32,7 @@ The PDFs contain 3,004 Oxford 3000 entries, 1,999 additional Oxford 5000 entries
 
 Every record received AI-assisted editorial review of both examples, senses and translations. This is not independent human review, exhaustive dictionary verification, or a guarantee of correctness. [Additional dictionary evidence](meaning-evidence-v2.json) covers only 28 specified records. Two examples cannot cover every possible sense.
 
-Mechanical checks passed for completeness and distinct examples. Approximate Arial layout checks cover 2,875 reachable group starts. One V2 group was visually verified on iPhone 15 Pro Max; long-running V2 scheduling and other screen sizes still need device verification.
+Mechanical checks passed for completeness and distinct examples. Approximate Arial layout checks cover 2,875 reachable group starts. Two V2 groups were visually verified on iPhone 15 Pro Max. On 11 October the user confirmed V2 refresh; this is user-reported acceptance, not independent timing measurement. Other screen sizes remain unverified.
 
 ## Development and licenses
 
@@ -53,3 +53,6 @@ This is not an official Oxford University Press or Scriptable product.
 
 
 [Gerçek cihaz görüntüsü / Device screenshot](widget-iphone.jpg) · [Geri bildirim / Feedback](FEEDBACK.md)
+
+
+[Geliştirme ve AI devir rehberi / Maintenance handoff](HANDOFF.md)

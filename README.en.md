@@ -8,7 +8,7 @@ A purple and gold iPhone Home Screen widget with **5,000 word entries + 750 phra
 
 <img src="widget-iphone.jpg" alt="Six entries and twelve examples on an iPhone 15 Pro Max Home Screen" width="360">
 
-*Actual iPhone 15 Pro Max screenshot. All twelve examples fit in this group. Other screen sizes and long-running V2 refresh remain unverified.*
+*Actual iPhone 15 Pro Max screenshot. All twelve examples fit in this group. On 11 October the user also confirmed V2 refresh. Other screen sizes still need testing.*
 
 [Step-by-step screenshots (Turkish UI) →](https://kuurtali.github.io/uc-ifade/kurulum-gorselli.html)
 
@@ -45,3 +45,6 @@ Oxford 3000, the additional Oxford 5000 words, and the Oxford Phrase List, with 
 Every entry received AI-assisted editorial review, not independent human or dictionary verification of every record. [Report a correction](https://github.com/kuurtali/uc-ifade/issues/new) · [Contribute](CONTRIBUTING.md) · [Details and development](GUIDE.en.md).
 
 Code: [MIT](LICENSE). Original learning text: CC BY 4.0. Oxford source rights remain with their owners. [License scope](CONTENT-LICENSE.md). Unofficial project; not affiliated with Oxford or Scriptable.
+
+
+[Geliştirme ve AI devir rehberi / Maintenance handoff](HANDOFF.md)

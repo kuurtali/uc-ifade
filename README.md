@@ -8,7 +8,7 @@ Mor ve altın renkli iPhone ana ekran widget’ı: **5.000 kelime + 750 kalıp**
 
 <img src="widget-iphone.jpg" alt="iPhone 15 Pro Max ana ekranında altı ifade ve on iki örnek" width="360">
 
-*Gerçek iPhone 15 Pro Max görüntüsü. Bu altılı grupta 12 örnek kesilmeden görünüyor; diğer ekran boyutları ve V2’nin uzun süreli yenilenmesi henüz doğrulanmadı.*
+*Gerçek iPhone 15 Pro Max görüntüsü. Bu altılı grupta 12 örnek kesilmeden görünüyor; 11 Ekim’de kullanıcı V2 yenilenmesini de doğruladı. Diğer ekran boyutları ayrıca denenmelidir.*
 
 [Gerçek ekran görüntüleriyle kurulum →](https://kuurtali.github.io/uc-ifade/kurulum-gorselli.html)
 
@@ -45,3 +45,6 @@ Oxford 3000, Oxford 5000’in ek kelimeleri ve Oxford Phrase List kullanıldı; 
 Tüm kayıtlar AI destekli dilsel incelemeden geçti. Bu, her kaydın bağımsız insan veya sözlük kontrolünden geçtiği anlamına gelmez. [Hata bildir](https://github.com/kuurtali/uc-ifade/issues/new) · [Katkı rehberi](CONTRIBUTING.md) · [Ayrıntılar ve geliştirme](GUIDE.md).
 
 Kod [MIT](LICENSE); özgün öğrenme metinleri CC BY 4.0. Oxford kaynaklarının hakları sahiplerine aittir. [Lisans kapsamı](CONTENT-LICENSE.md). Oxford veya Scriptable’ın resmî ürünü değildir.
+
+
+[Geliştirme ve AI devir rehberi / Maintenance handoff](HANDOFF.md)

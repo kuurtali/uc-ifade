@@ -1,5 +1,8 @@
 # ifade ✳
 
+[Portfolio](https://github.com/kuurtali) · [All projects](https://github.com/kuurtali#projects) · [Report an issue](https://github.com/kuurtali/uc-ifade/issues)
+
+
 **Six expressions at a glance. Two examples each.**
 
 A purple and gold iPhone Home Screen widget with **5,000 word entries + 750 phrases** and **11,500 examples**, Turkish meanings and translations. Where useful, the second example demonstrates another sense.

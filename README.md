@@ -1,5 +1,8 @@
 # ifade ✳
 
+[Portföy](https://github.com/kuurtali) · [Tüm projeler](https://github.com/kuurtali#projects) · [Sorun bildir](https://github.com/kuurtali/uc-ifade/issues)
+
+
 **Bir bakışta altı ifade. Her ifadede iki örnek.**
 
 Mor ve altın renkli iPhone ana ekran widget’ı: **5.000 kelime + 750 kalıp**, Türkçe anlamlar ve çevirileriyle **11.500 örnek**. Uygun olduğunda ikinci örnek başka anlamı gösterir.
